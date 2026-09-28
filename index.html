@@ -36,7 +36,7 @@ th{background:#f1f2f4;font-weight:600}
 </style></head><body><div class="wrap">
 
 <h1>Bugsnag → Sentry 이전 현황</h1>
-<p class="sub">Brice 인계 2026-09-23 · 업데이트 2026-09-28 (월) 21:58 KST · 원칙: 증거 먼저, 제거 전 최소 7일 병행 (prod 반영일부터 셈)</p>
+<p class="sub">Brice 인계 2026-09-23 · 업데이트 2026-09-28 (월) 23:33 KST · 원칙: 증거 먼저, 제거 전 최소 7일 병행 (prod 반영일부터 셈)</p>
 
 <div class="card hl"><b>한 줄 요약</b><br>
 오늘 오전 <b>0/10 → 4/10 완료</b>. 10446(API 동등성)까지 끝남. API 쪽은 Bugsnag 제거(10447)만 남음.<br>
@@ -44,7 +44,7 @@ Vercel 연동과 crawler 담당은 Brice가 처리함. 남은 Brice 몫은 <b>2�
 
 <div class="kpis">
 <div class="kpi"><div class="v">4 / 10</div><div class="l">Linear Done (오전 0)</div></div>
-<div class="kpi"><div class="v">8</div><div class="l">머지된 PR (오전 4), 열린 PR 3</div></div>
+<div class="kpi"><div class="v">9</div><div class="l">머지된 PR (오전 4), 열린 PR 3</div></div>
 <div class="kpi"><div class="v">3</div><div class="l">작업 중 세션 (10443, 10444, 10447)</div></div>
 <div class="kpi"><div class="v" style="color:#c81e1e">2</div><div class="l">Brice 몫 (나중에 필요)</div></div>
 </div>
@@ -61,8 +61,8 @@ Vercel 연동과 crawler 담당은 Brice가 처리함. 남은 Brice 몫은 <b>2�
 <tr><td>9507</td><td>에러 데이터 외부 전송 정책</td><td>9/26</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="pill done">Done</span></td><td>없음. Jay 승인 머지 + DPA 서명</td></tr>
 <tr><td>10442</td><td>Sentry 기본 세팅</td><td>9/29</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="pill done">Done</span></td><td>없음. 알림 9개, 키 6개, 분당 제한은 Brice 👍로 보류</td></tr>
 <tr><td>10446</td><td>API Sentry 동등성 증명</td><td>10/3</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="pill done">Done</span></td><td>없음. PR 4개 머지, 가짜 에러 3건 + 자연 에러(STORIKA-API-2P)에서 원본 TS 줄 확인</td></tr>
-<tr><td>10443</td><td>Python 에러를 Sentry로</td><td class="late">9/30</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></td><td><span class="pill run">작업 중</span></td><td>PR 2개로 나눔. #10765(enrich-post, crawler)는 마지막 검사 후 머지. #10766(brand-extraction)은 Brice prod 승인 + crawler 배포 버튼(STORIKA-12108, Brice 10/2) 뒤</td></tr>
-<tr><td>10444</td><td>web에 Sentry 추가</td><td class="late">10/1</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></td><td><span class="pill run">작업 중</span></td><td>PR #10767 오픈, 검사 전부 통과, CI 도는 중. Vercel 연동은 Brice가 끝냄(production, preview). 증거는 preview 배포에서</td></tr>
+<tr><td>10443</td><td>Python 에러를 Sentry로</td><td class="late">9/30</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></td><td><span class="pill run">작업 중</span></td><td>PR 2개로 나눔. #10765(enrich-post, crawler)는 중복 코드 정리 후 재검사 중. #10766(brand-extraction)은 Brice prod 승인 + crawler 배포 버튼(STORIKA-12108, Brice 10/2) 뒤</td></tr>
+<tr><td>10444</td><td>web에 Sentry 추가</td><td class="late">10/1</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></td><td><span class="pill run">작업 중</span></td><td>PR #10767 dev 머지(22:46). preview 증거: 브라우저 에러 + #web-error 알림 통과, 이메일 가림 OK. 서버 에러 미수신과 원본 코드 줄 미표시는 후속 PR #10777로 수정 중</td></tr>
 <tr><td>10447</td><td>API에서 Bugsnag 제거</td><td>10/10</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></td><td><span class="pill run">작업 중</span></td><td>코드 완료(Sentry 테스트 약화 0), 마지막 검사 후 draft PR. API Sentry가 9/28 prod 반영(r30) → 가장 빠른 머지 10/5</td></tr>
 <tr><td>10445</td><td>web에서 Bugsnag 제거</td><td>10/8</td><td><span class="bar"><i></i><i></i><i></i><i></i><i></i></span></td><td><span class="pill wait">대기</span></td><td>10444가 prod에 반영된 날 + 7일 (10/8보다 늦어질 수 있음). 그 전에 dev 환경 DSN 필요(Brice)</td></tr>
 <tr><td>9506</td><td>Bugsnag 해지</td><td>10/13</td><td><span class="bar"><i></i><i></i><i></i><i></i><i></i></span></td><td><span class="pill other">Brice 실행</span></td><td>제거 뒤 Brice가 시크릿 삭제와 해지. 그 전에 prod 서버에 Bugsnag 설정이 안 남았는지 확인. 다음 Bugsnag 결제 10/5 ($23)</td></tr>
@@ -95,6 +95,9 @@ Vercel 연동과 crawler 담당은 Brice가 처리함. 남은 Brice 몫은 <b>2�
 <tr><td>로컬 knip 오탐 (recharts)</td><td>HeroUI Pro 대체물 탓으로 확정, 한 줄 추가로 해결</td></tr>
 <tr><td>git 작성자 Fixture로 박힘</td><td>로컬 설정 정리. dev 머지 커밋은 원래 정상</td></tr>
 <tr><td>세션 재시작 2회 (Orca)</td><td>작업 손실 없음, 워크트리 커밋 상태로 재개</td></tr>
+<tr><td>Sentry가 접속 위치(IP 기반)를 붙임</td><td>9507 정책(IP 저장 안 함)에 맞게 조직 설정 "IP 저장 방지" ON (DJ), 확인 완료</td></tr>
+<tr><td>Vercel 빌드에서 Sentry 토큰이 걸러짐, 서버 에러 전송 전 함수 종료</td><td>원인 확정 → 후속 PR #10777 (빌드 설정 + 전송 대기)</td></tr>
+<tr><td>Python 공용 코드 중복 검사 걸림</td><td>예외 신청 대신 한 벌로 합치는 중 (10443)</td></tr>
 <tr><td>Bugsnag만 받던 알림 2곳 (TikTok Shop, Gmail 연결)</td><td>Sentry 추가 완료 → 이 두 곳도 7일 병행 중</td></tr>
 </table></div>
 
