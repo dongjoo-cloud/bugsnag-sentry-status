@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bugsnag to Sentry 현황</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#111;--muted:#666;--line:#e3e5e8;--blue:#e8f0fe;--blueb:#1a56db;--red:#fdecec;--redb:#c81e1e}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,"Apple SD Gothic Neo",sans-serif}
+.wrap{max-width:1120px;margin:0 auto;padding:28px 16px 60px}
+h1{font-size:24px;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 20px}
+h2{font-size:18px;margin:28px 0 12px;padding-left:10px;border-left:4px solid #111}
+.card{background:var(--card);border-radius:12px;padding:18px 20px;margin:0 0 14px;border:1px solid var(--line)}
+.hl{background:var(--blue);border-color:#c6d8fb}
+.hl b{color:var(--blueb)}
+.gate{background:var(--red);border-color:#f5c2c2}
+.gate h3{color:var(--redb);margin:0 0 8px;font-size:16px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .v{font-size:28px;font-weight:700}
+.kpi .l{color:var(--muted);font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{border-bottom:1px solid var(--line);padding:9px 8px;text-align:left;vertical-align:top}
+th{background:#f1f2f4;font-weight:600}
+.pill{display:inline-block;padding:1px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.done{background:#def7ec;color:#03543f}.run{background:#e1effe;color:#1e429f}.wait{background:#eceef1;color:#4b5563}.g{background:#fde8e8;color:#9b1c1c}.other{background:#edebfe;color:#5521b5}
+.bar{display:inline-flex;gap:3px;vertical-align:middle}.bar i{width:14px;height:10px;border-radius:2px;background:#e5e7eb}.bar i.on{background:#31c48d}
+.steps{display:flex;flex-direction:column;gap:10px}
+.step{display:flex;gap:12px;align-items:flex-start}
+.step .n{flex:0 0 28px;height:28px;border-radius:50%;background:#111;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px}
+.flow span{display:inline-block;width:112px;min-height:44px;padding:6px 8px;border-radius:8px;border:1px solid var(--line);background:#fff;text-align:center}
+.flow span.d{background:#def7ec;border-color:#a7e3c5}.flow span.r{background:#e1effe;border-color:#bcd3fb}.flow span.b{background:#fde8e8;border-color:#f5c2c2}
+.late{color:var(--redb);font-weight:700}
+.muted{color:var(--muted);font-size:13px}
+@media (max-width:720px){.kpis{grid-template-columns:repeat(2,1fr)}table{font-size:13px}}
+</style></head><body><div class="wrap">
+
+<h1>Bugsnag → Sentry 이전 현황</h1>
+<p class="sub">Brice 인계 2026-09-23 · 업데이트 2026-09-28 (월) 21:05 KST · 원칙: 증거 먼저, 제거 전 최소 7일 병행</p>
+
+<div class="card hl"><b>한 줄 요약</b><br>
+오늘 오전 <b>0/10 → 4/10 완료</b>. 10446(API 동등성)까지 끝남. API 쪽은 Bugsnag 제거(10447)만 남음.<br>
+남은 병목은 <b>Brice 결정 3개</b>(Vercel 연동, 10443 prod 승인, crawler 담당)임.</div>
+
+<div class="kpis">
+<div class="kpi"><div class="v">4 / 10</div><div class="l">Linear Done (오전 0)</div></div>
+<div class="kpi"><div class="v">8</div><div class="l">머지된 PR (오전 4)</div></div>
+<div class="kpi"><div class="v">3</div><div class="l">작업 중 세션 (10443, 10444, 10447)</div></div>
+<div class="kpi"><div class="v" style="color:#c81e1e">3</div><div class="l">Brice 결정 대기</div></div>
+</div>
+
+<h2>흐름</h2>
+<div class="card"><div class="flow">
+<span class="d">10440 백업 ✓</span>→<span class="d">9507 정책 ✓</span>→<span class="d">10442 세팅 ✓</span>→<span class="d">10446 API 증명 ✓</span>→<span class="b">10443 Python</span>→<span class="b">10444 web 추가</span>→<span>7일 병행</span>→<span class="r">10447 API 제거</span>→<span>10445 web 제거</span>→<span>9506 해지(Brice)</span>→<span>10441 최종 검수</span>
+</div><p class="muted">초록 완료 · 파랑 작업 중 · 빨강 Brice 대기 · 흰색 시작 전</p></div>
+
+<h2>티켓별 진행도</h2>
+<div class="card"><table>
+<tr><th>티켓</th><th>내용</th><th>마감</th><th>진행도</th><th>상태</th><th>남은 것</th></tr>
+<tr><td>10440</td><td>Bugsnag 은퇴 증거 백업</td><td>9/25</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="pill done">Done</span></td><td>없음. Drive 폴더 storika 전체 공유, export 암호화</td></tr>
+<tr><td>9507</td><td>에러 데이터 외부 전송 정책</td><td>9/26</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="pill done">Done</span></td><td>없음. Jay 승인 머지 + DPA 서명</td></tr>
+<tr><td>10442</td><td>Sentry 기본 세팅</td><td>9/29</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="pill done">Done</span></td><td>없음. 알림 9개, 키 6개, 분당 제한은 Brice 👍로 보류</td></tr>
+<tr><td>10446</td><td>API Sentry 동등성 증명</td><td>10/3</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="pill done">Done</span></td><td>없음. PR 4개 머지, 가짜 에러 3건 + 자연 에러(STORIKA-API-2P)에서 원본 TS 줄 확인</td></tr>
+<tr><td>10443</td><td>Python 에러를 Sentry로</td><td class="late">9/30</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></td><td><span class="pill g">Brice 대기</span></td><td>PR #10715 draft, 시크릿 준비 완료, Codex PASS. prod 반영 승인 + crawler 담당 결정 필요</td></tr>
+<tr><td>10444</td><td>web에 Sentry 추가</td><td class="late">10/1</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></td><td><span class="pill run">작업 중</span></td><td>코드 완료, 마지막 검사 후 PR 오픈 예정. 머지는 Brice Vercel 연동 후</td></tr>
+<tr><td>10447</td><td>API에서 Bugsnag 제거</td><td>10/10</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></td><td><span class="pill run">작업 중</span></td><td>코드 완료(Sentry 테스트 약화 0), 마지막 검사 후 draft PR. 가장 빠른 머지 10/5</td></tr>
+<tr><td>10445</td><td>web에서 Bugsnag 제거</td><td>10/8</td><td><span class="bar"><i></i><i></i><i></i><i></i><i></i></span></td><td><span class="pill wait">대기</span></td><td>10444 머지 + 7일</td></tr>
+<tr><td>9506</td><td>Bugsnag 해지</td><td>10/13</td><td><span class="bar"><i></i><i></i><i></i><i></i><i></i></span></td><td><span class="pill other">Brice 실행</span></td><td>제거 뒤 Brice가 시크릿 삭제와 해지. 다음 Bugsnag 결제 10/5 ($23)</td></tr>
+<tr><td>10441</td><td>Sentry 단일 모니터 최종 검수</td><td>10/14</td><td><span class="bar"><i></i><i></i><i></i><i></i><i></i></span></td><td><span class="pill wait">대기</span></td><td>마지막</td></tr>
+</table></div>
+
+<h2>Brice 결정 대기</h2>
+<div class="card gate"><h3>이게 풀려야 다음으로 감</h3>
+<div class="steps">
+<div class="step"><div class="n">1</div><div><b>Vercel Sentry 연동</b> (10444)<br>dev 커스텀 환경까지 포함 요청함. Brice가 할 일로 등록함. 연동 전엔 10444 머지 불가(CI 검사).</div></div>
+<div class="step"><div class="n">2</div><div><b>10443 prod 반영 승인</b><br>brand-extraction은 dev 머지가 곧 prod 배포라서 필요함.</div></div>
+<div class="step"><div class="n">3</div><div><b>crawler 배포 담당</b> (10443)<br>GitHub 자동 배포가 없어서 사람이 직접 돌려야 함.</div></div>
+</div></div>
+
+<h2>오늘 Brice가 처리해준 것</h2>
+<div class="card"><table>
+<tr><th>항목</th><th>결과</th></tr>
+<tr><td>Bugsnag, Sentry 초대</td><td>DJ Owner로 조인, DPA 서명</td></tr>
+<tr><td>GitHub SENTRY_AUTH_TOKEN</td><td>등록됨 → 10446 소스맵 업로드 성공 (5,472 파일)</td></tr>
+<tr><td>Secret Manager Admin</td><td>DJ에게 부여 → Python DSN 시크릿 2개 직접 생성</td></tr>
+<tr><td>api-dev Cloud Run 권한</td><td>DJ 조회 가능. 다만 스위치를 켜려면 이미지 읽기 권한이 더 필요함</td></tr>
+<tr><td>분당 60건 제한 보류</td><td>👍 승인 → 10442 Done</td></tr>
+</table></div>
+
+<h2>오늘 생긴 이슈와 처리</h2>
+<div class="card"><table>
+<tr><th>이슈</th><th>처리</th></tr>
+<tr><td>공용 QA 계정 비번 리셋 (우리 세션)</td><td>Brice 로그인 5건 파손 → 원인 공개, 비번은 Secret Manager로 전달, 해결 확인. 재민트 금지 규칙 추가</td></tr>
+<tr><td>로컬 knip 오탐 (recharts)</td><td>HeroUI Pro 대체물 탓으로 확정, 한 줄 추가로 해결</td></tr>
+<tr><td>git 작성자 Fixture로 박힘</td><td>로컬 설정 정리. dev 머지 커밋은 원래 정상</td></tr>
+<tr><td>세션 재시작 2회 (Orca)</td><td>작업 손실 없음, 워크트리 커밋 상태로 재개</td></tr>
+<tr><td>Bugsnag만 받던 알림 2곳 (TikTok Shop, Gmail 연결)</td><td>Sentry 추가 완료 → 이 두 곳도 7일 병행 중</td></tr>
+</table></div>
+
+</div></body></html>
