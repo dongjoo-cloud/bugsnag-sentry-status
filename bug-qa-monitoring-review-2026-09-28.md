@@ -168,3 +168,46 @@
 - NestJS: https://docs.sentry.io/platforms/javascript/guides/nestjs/
 - Next.js manual: https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
 - Spike protection: https://docs.sentry.io/pricing/quotas/spike-protection/
+
+---
+
+## 8. Second pair of eyes — Researcher (2026-09-28)
+
+### 총평
+North star·큰 흐름·API dual 후 10447 순서 **동의**. 고칠 핵심 네 줄도 맞음.
+
+### 추천별
+| 항목 | 판정 |
+|------|------|
+| 게이트 ≥7일 AND 증거 AND #product | **Agree** — OR로 완화 금지. 조용한 7일만으로 증명 금지 |
+| 10443 blocks 10444 해제 | **Agree** — 병렬 OK. 공유 쿼터/SP는 병행 기간 모니터링(AC 한 줄) |
+| 10443 AC (Brice+12108+prod 리스크) | **Agree** |
+| 10444 Vercel development + creator-web OOS | **Agree** |
+| Nest 25경로 cut 전 | **Agree** — 배치는 아래 §6-3 |
+| 10447 vs 10/5 #product | **Agree** |
+| 10442 잔여 (볼륨/GitHub) | **Agree, P2** — cut 블로커 아님 |
+| 9506 실행 Brice | **Agree** |
+| 10441 api-dev만 Done 금지 | **Agree** (강하게) |
+
+### 새 티켓
+- 릴리스·소스맵 CI — **Agree, 우선 높음** (특히 web)
+- Python SP — **Agree**
+- 온콜/런북 — **Agree**, Bugsnag 끄기 **전**
+- creator-web/휴면 키 — 독립 티켓 대신 10444/10441 백로그 한 줄
+- $23 미청구 — **standalone cut** → **9506 AC**에 「10/5 이후 미청구 확인」
+
+### 추가
+- Decision에 **증거 체크리스트** (서비스별: 합성 1 + 자연 high/med ≥1, 알림→Slack)
+- dual 기간 **쿼터/SP 모니터링** 담당
+- 컷오버 직전 **알림 라우팅 리허설** (Sentry→Slack only)
+
+### §6 답
+1. **게이트** — 적정. 증거를 체크리스트로 고정. 트래픽 적은 web은 7일 + **최소 이벤트 수** 병기 가능. 7일 OR 증거로 바꾸지 말 것.
+2. **10443→10444** — 해제 맞음. 공유 자원은 쿼터/SP뿐.
+3. **Nest 25** — **새 티켓** + **10447은 그 티켓의 ‘의도적 제외 문서화’에 block**. 분류≠제거 스킬; 진짜 수정은 제외 목록 #product 합의 후 cut 뒤로 OK.
+4. **Python 프로젝트** — 지금은 **`storika-python` 하나** + 태그. 볼륨 보이면 분리. SP 티켓에 탈출구 문구.
+5. **10/5 cut** — **거의 가치 없음.** $23 ≪ 잘못된 cut. 한 달 더 내고 증거. 결제 날짜로 AC 완화 금지.
+6. **우선순위** — P0 Nest triage → P0 릴리스/맵 CI → P1 온콜 → P1 Python SP → P2 나머지.
+
+### Researcher 한 줄
+뼈대 유지. **게이트 7일∧증거∧#product**, **10443∥10444**, Nest는 **별도 티켓으로 10447 앞**, **$23 때문에 cut 당기지 말 것**, 새 티켓은 릴리스/맵·SP·온콜만 무게.
