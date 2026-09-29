@@ -38,7 +38,7 @@ th{background:#f1f2f4;font-weight:600}
 </style></head><body><div class="wrap">
 
 <h1>Bugsnag → Sentry 이전 현황</h1>
-<p class="sub">Brice 인계 2026-09-23 · 업데이트 2026-09-29 (화) 17:02 KST · 원칙: 증거 먼저, 제거 전 최소 7일 병행 (prod 반영일부터 셈)</p>
+<p class="sub">Brice 인계 2026-09-23 · 업데이트 2026-09-30 (수) 07:25 KST · 원칙: 증거 먼저, 제거 전 최소 7일 병행 (prod 반영일부터 셈)</p>
 
 <div class="card hl"><b>한 줄 요약</b><br>
 <b>5/12 완료</b> (9/29 Jay 요청으로 12216, 12229 추가). 10444(web에 Sentry 추가)까지 끝남. web Sentry는 9/29 06:24 릴리스로 prod 반영, 7일 병행 중. 철거 PR 2개(10447, 10445)는 증거까지 다 모아 draft로 대기 중. 12229 코드(1차 결제·정산·작업, 2차 Discovery 검색) 전부 머지. 지금 돌고 있는 세션 0개, 날짜/신호 오면 다시 엶.<br>
@@ -48,8 +48,21 @@ Vercel 연동과 crawler 담당은 Brice가 처리함. 남은 Brice 몫은 <b>2�
 <div class="kpi"><div class="v">5 / 12</div><div class="l">Linear Done (9/28 오전 0)</div></div>
 <div class="kpi"><div class="v">16</div><div class="l">머지된 PR, 열린 draft 3 (#10766, #10815, #10818)</div></div>
 <div class="kpi"><div class="v">0</div><div class="l">작업 중 세션. 10443·10445·10447·12216·12229 모두 재개 대기</div></div>
-<div class="kpi"><div class="v" style="color:#c81e1e">2</div><div class="l">Brice 몫 (나중에 필요)</div></div>
+<div class="kpi"><div class="v" style="color:#c81e1e">3</div><div class="l">Brice/Jay 몫 (나중에 필요)</div></div>
 </div>
+
+<h2>남은 작업</h2>
+<div class="card tablewrap"><table>
+<tr><th>언제</th><th>티켓</th><th>할 일</th><th>누가</th><th>막는 것</th></tr>
+<tr><td>승인 나면 바로</td><td>10443</td><td>crawler에 Sentry 연결된 걸 테스트 에러 1건으로 증명</td><td>허브</td><td><span class="pill other">승인 필요</span> crawler 배포 버튼은 9/29 생김(#10850). crawler는 서버가 1개라 배포 = prod 반영이라 승인 필요</td></tr>
+<tr><td>Brice 승인 뒤</td><td>10443</td><td>brand-extraction PR #10766 타입 검사 수정 → 머지(= prod 배포) → 증거</td><td>허브</td><td><span class="pill other">Brice</span> prod 반영 승인</td></tr>
+<tr><td>10/5 (월) 07:44 이후</td><td>10447</td><td>API에서 Bugsnag 떼기. draft #10815 최신화 → 재검사 → 머지</td><td>허브</td><td><span class="pill wait">날짜</span> 7일 병행 + Codex 사용량 리셋</td></tr>
+<tr><td>10/6 (화) 06:24 이후</td><td>10445</td><td>web에서 Bugsnag 떼기. draft #10818 머지</td><td>허브</td><td><span class="pill other">Brice</span> app-dev Vercel에 Sentry DSN 추가</td></tr>
+<tr><td>다음 main 릴리스 뒤</td><td>12216</td><td>canary 정기 실행 모니터 생성 → 울리는지 확인 → 7일 병행 → Jay에게 표 전달</td><td>허브</td><td><span class="pill wait">릴리스</span> #10842가 아직 main에 없음</td></tr>
+<tr><td>7일 병행 뒤</td><td>12216, 12229</td><td>Google Cloud 규칙 끄기: 12216 몫 5개 + 12229 몫 6개(죽은 규칙 2개 포함). 끄기만, 삭제 안 함</td><td>허브</td><td><span class="pill other">Jay/Brice</span> 규칙 수정 권한(alertPolicyEditor)</td></tr>
+<tr><td>10447·10445 prod 반영 뒤</td><td>9506</td><td>Bugsnag 시크릿 삭제, 계정 해지. 허브는 그 전에 prod에 Bugsnag 설정이 안 남았는지 확인</td><td>Brice</td><td><span class="pill wait">순서</span> 두 제거 PR</td></tr>
+<tr><td>맨 마지막</td><td>10441</td><td>Sentry 하나로 다 잡히는지 최종 검수</td><td>허브</td><td><span class="pill wait">순서</span> 9506</td></tr>
+</table></div>
 
 <h2>흐름</h2>
 <div class="card"><div class="flow">
@@ -66,7 +79,7 @@ Vercel 연동과 crawler 담당은 Brice가 처리함. 남은 Brice 몫은 <b>2�
 <tr><td>9507</td><td>에러 데이터 외부 전송 정책</td><td class="easy">"에러 정보를 외부 회사에 보내도 되나" 정책. 이메일·IP 같은 개인정보는 안 보냄</td><td>9/26</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="pill done">Done</span></td><td>없음. Jay 승인 머지 + DPA 서명</td></tr>
 <tr><td>10442</td><td>Sentry 기본 세팅</td><td class="easy">Sentry 계정 세팅. 알림 채널, 키, 알림 규칙</td><td>9/29</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="pill done">Done</span></td><td>없음. 알림 9개, 키 6개, 분당 제한은 Brice 👍로 보류</td></tr>
 <tr><td>10446</td><td>API Sentry 동등성 증명</td><td class="easy">API 동에 Sentry 달고 진짜 잘 울리는지 증명</td><td>10/3</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="pill done">Done</span></td><td>없음. PR 4개 머지, 가짜 에러 3건 + 자연 에러(STORIKA-API-2P)에서 원본 TS 줄 확인</td></tr>
-<tr><td>10443</td><td>Python 에러를 Sentry로</td><td class="easy">Python 동에 Sentry 달기 (여긴 원래 Bugsnag도 없었음)</td><td class="late">9/30</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></td><td><span class="pill run">부분 완료</span></td><td>#10765 머지(9/29 07:27), 로컬 실행 오류 수정 #10852 머지(9/29 12:01, Brice 지적). enrich-post dev 증거 완료(STORIKA-PYTHON-4, #api-error 알림, 가림 OK). 남은 것: crawler 증거(STORIKA-12108 배포 버튼 뒤, 10/2경), #10766 brand-extraction(Brice prod 승인 뒤)</td></tr>
+<tr><td>10443</td><td>Python 에러를 Sentry로</td><td class="easy">Python 동에 Sentry 달기 (여긴 원래 Bugsnag도 없었음)</td><td class="late">9/30</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></td><td><span class="pill run">부분 완료</span></td><td>#10765 머지(9/29 07:27), 로컬 실행 오류 수정 #10852 머지(9/29 12:01, Brice 지적). enrich-post dev 증거 완료(STORIKA-PYTHON-4, #api-error 알림, 가림 OK). 남은 것: crawler 증거(배포 버튼은 9/29 생김, crawler 배포는 prod라 승인 필요), #10766 brand-extraction(Brice prod 승인 뒤)</td></tr>
 <tr><td>10444</td><td>web에 Sentry 추가</td><td class="easy">web 동에 Sentry 달기. 에러 위치가 원본 코드 줄로 보이게</td><td class="late">10/1</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="pill done">Done</span></td><td>없음. PR 3개(#10767, #10777, #10797) 머지. 브라우저 + 서버 에러 모두 원본 코드 줄 확인, 이메일/토큰 가림, IP 없음</td></tr>
 <tr><td>10447</td><td>API에서 Bugsnag 제거</td><td class="easy">API 동에서 Bugsnag 떼기</td><td>10/10</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></td><td><span class="pill wait">10/5 대기</span></td><td>draft PR #10815 준비 완료(검사 전부 통과, Sentry 테스트 약화 0). 10/5에 재개해서 머지</td></tr>
 <tr><td>10445</td><td>web에서 Bugsnag 제거</td><td class="easy">web 동에서 Bugsnag 떼기</td><td>10/8</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></td><td><span class="pill wait">머지 대기</span></td><td>draft PR #10818 준비 완료. 증거 전부 확보(원본 줄, 가림, Bugsnag 요청 0, #web-error 알림 2건), 검사 통과. 머지는 10/6 06:24 이후(web prod 반영 9/29 + 7일), Brice의 dev 환경 DSN 뒤</td></tr>
@@ -76,11 +89,12 @@ Vercel 연동과 crawler 담당은 Brice가 처리함. 남은 Brice 몫은 <b>2�
 <tr><td>12229</td><td>로그만 남던 실패도 Sentry로 (12216 후속)</td><td class="easy">에러 기록만 남기고 경보는 안 울리던 곳(결제·정산·백그라운드 작업)에 Sentry 달기. 그래야 Google Cloud 규칙을 끌 수 있음</td><td>-</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></td><td><span class="pill wait">끄기 단계 대기</span></td><td>1차 #10864(9/29 14:01) + 2차 #10881(9/29 16:07) 머지. 테스트 에러 4건 #api-error 확인 후 표시·정리. Discovery 규칙 2개는 8/15 이후 절대 안 울리는 죽은 규칙으로 판명. 남은 것: 12216 끄기 단계 때 Google Cloud 규칙 6개 같이 끔</td></tr>
 </table></div>
 
-<h2>Brice 몫 (나중에 필요)</h2>
+<h2>Brice/Jay 몫 (나중에 필요)</h2>
 <div class="card gate"><h3>지금 당장 막는 건 없음. 때가 되면 한 번에 요청</h3>
 <div class="steps">
 <div class="step"><div class="n">1</div><div><b>dev 환경 Sentry DSN</b> (10445 전)<br>app-dev용 Vercel 환경에는 Sentry 설정이 아직 없음. web에서 Bugsnag 빼기 전에 필요함.</div></div>
-<div class="step"><div class="n">2</div><div><b>brand-extraction prod 반영 승인</b> (#10766)<br>dev 머지가 곧 prod 배포라서 필요함. crawler 배포 버튼(STORIKA-12108)이 먼저 생겨야 함.</div></div>
+<div class="step"><div class="n">2</div><div><b>brand-extraction prod 반영 승인</b> (#10766)<br>dev 머지가 곧 prod 배포라서 필요함. crawler 배포 버튼(#10850)은 9/29 생김.</div></div>
+<div class="step"><div class="n">3</div><div><b>Google Cloud 규칙 수정 권한</b> (12216, 12229, 끄는 단계에서)<br>roles/monitoring.alertPolicyEditor. Jay 또는 Brice. 9/29 #product 스레드에 미리 알림.</div></div>
 </div></div>
 
 <h2>오늘 Brice가 처리해준 것</h2>
