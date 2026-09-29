@@ -38,22 +38,22 @@ th{background:#f1f2f4;font-weight:600}
 </style></head><body><div class="wrap">
 
 <h1>Bugsnag → Sentry 이전 현황</h1>
-<p class="sub">Brice 인계 2026-09-23 · 업데이트 2026-09-29 (화) 07:57 KST · 원칙: 증거 먼저, 제거 전 최소 7일 병행 (prod 반영일부터 셈)</p>
+<p class="sub">Brice 인계 2026-09-23 · 업데이트 2026-09-29 (화) 09:51 KST · 원칙: 증거 먼저, 제거 전 최소 7일 병행 (prod 반영일부터 셈)</p>
 
 <div class="card hl"><b>한 줄 요약</b><br>
-<b>5/10 완료</b>. 10444(web에 Sentry 추가)까지 끝남. web 7일 병행은 다음 prod 릴리스부터 시작. 10443(Python) 머지 + enrich-post dev 증거 완료. 철거 PR 2개(10447, 10445)는 draft로 대기 중.<br>
+<b>5/11 완료</b> (9/29 Jay 요청으로 12216 추가). 10444(web에 Sentry 추가)까지 끝남. web 7일 병행은 다음 prod 릴리스부터 시작. 10443(Python) 머지 + enrich-post dev 증거 완료. 철거 PR 2개(10447, 10445)는 draft로 대기 중.<br>
 Vercel 연동과 crawler 담당은 Brice가 처리함. 남은 Brice 몫은 <b>2개</b>이고, 둘 다 지금 당장 막는 건 아님.</div>
 
 <div class="kpis">
-<div class="kpi"><div class="v">5 / 10</div><div class="l">Linear Done (9/28 오전 0)</div></div>
+<div class="kpi"><div class="v">5 / 11</div><div class="l">Linear Done (9/28 오전 0)</div></div>
 <div class="kpi"><div class="v">12</div><div class="l">머지된 PR, 열린 draft 3 (#10766, #10815, #10818)</div></div>
-<div class="kpi"><div class="v">1</div><div class="l">작업 중 세션 (10445). 10443·10447은 재개 대기</div></div>
+<div class="kpi"><div class="v">2</div><div class="l">작업 중 세션 (10445, 12216). 10443·10447은 재개 대기</div></div>
 <div class="kpi"><div class="v" style="color:#c81e1e">2</div><div class="l">Brice 몫 (나중에 필요)</div></div>
 </div>
 
 <h2>흐름</h2>
 <div class="card"><div class="flow">
-<span class="d">10440 백업 ✓</span>→<span class="d">9507 정책 ✓</span>→<span class="d">10442 세팅 ✓</span>→<span class="d">10446 API 증명 ✓</span>→<span class="r">10443 Python (부분)</span>→<span class="d">10444 web 추가 ✓</span>→<span>7일 병행</span>→<span class="r">10447 API 제거</span>→<span class="r">10445 web 제거</span>→<span>9506 해지(Brice)</span>→<span>10441 최종 검수</span>
+<span class="d">10440 백업 ✓</span>→<span class="d">9507 정책 ✓</span>→<span class="d">10442 세팅 ✓</span>→<span class="d">10446 API 증명 ✓</span>→<span class="r">10443 Python (부분)</span>→<span class="d">10444 web 추가 ✓</span>→<span>7일 병행</span>→<span class="r">10447 API 제거</span>→<span class="r">10445 web 제거</span>→<span>9506 해지(Brice)</span>→<span>10441 최종 검수</span>→<span class="r">12216 알림 통합</span>
 </div><p class="muted">초록 완료 · 파랑 작업 중 · 빨강 Brice 대기 · 흰색 시작 전</p></div>
 
 <h2>티켓별 진행도</h2>
@@ -69,9 +69,10 @@ Vercel 연동과 crawler 담당은 Brice가 처리함. 남은 Brice 몫은 <b>2�
 <tr><td>10443</td><td>Python 에러를 Sentry로</td><td class="easy">Python 동에 Sentry 달기 (여긴 원래 Bugsnag도 없었음)</td><td class="late">9/30</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></td><td><span class="pill run">부분 완료</span></td><td>#10765 머지(9/29 07:27). enrich-post dev 증거 완료(STORIKA-PYTHON-4, #api-error 알림, 가림 OK). 남은 것: crawler 증거(STORIKA-12108 배포 버튼 뒤, 10/2경), #10766 brand-extraction(Brice prod 승인 뒤)</td></tr>
 <tr><td>10444</td><td>web에 Sentry 추가</td><td class="easy">web 동에 Sentry 달기. 에러 위치가 원본 코드 줄로 보이게</td><td class="late">10/1</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="pill done">Done</span></td><td>없음. PR 3개(#10767, #10777, #10797) 머지. 브라우저 + 서버 에러 모두 원본 코드 줄 확인, 이메일/토큰 가림, IP 없음</td></tr>
 <tr><td>10447</td><td>API에서 Bugsnag 제거</td><td class="easy">API 동에서 Bugsnag 떼기</td><td>10/10</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></td><td><span class="pill wait">10/5 대기</span></td><td>draft PR #10815 준비 완료(검사 전부 통과, Sentry 테스트 약화 0). 10/5에 재개해서 머지</td></tr>
-<tr><td>10445</td><td>web에서 Bugsnag 제거</td><td class="easy">web 동에서 Bugsnag 떼기</td><td>10/8</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></td><td><span class="pill run">작업 중</span></td><td>draft PR #10818. preview에서 Sentry-only 확인(원본 줄, 가림, Bugsnag 요청 0). 알림 재확인 + 마지막 검사 중. 머지는 web prod 반영 + 7일, Brice의 dev 환경 DSN 뒤</td></tr>
+<tr><td>10445</td><td>web에서 Bugsnag 제거</td><td class="easy">web 동에서 Bugsnag 떼기</td><td>10/8</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></td><td><span class="pill run">작업 중</span></td><td>draft PR #10818. 증거 전부 확보(원본 줄, 가림, Bugsnag 요청 0, #web-error 알림 2건). DJ 승인 2건(변경 범위, 배포 설정 1줄씩) 반영, 마지막 검사 중. 머지는 web prod 반영 + 7일, Brice의 dev 환경 DSN 뒤</td></tr>
 <tr><td>9506</td><td>Bugsnag 해지</td><td class="easy">Brice가 Bugsnag 계정 해지하고 비밀키 삭제</td><td>10/13</td><td><span class="bar"><i></i><i></i><i></i><i></i><i></i></span></td><td><span class="pill other">Brice 실행</span></td><td>제거 뒤 Brice가 시크릿 삭제와 해지. 그 전에 prod 서버에 Bugsnag 설정이 안 남았는지 확인. 다음 Bugsnag 결제 10/5 ($23)</td></tr>
 <tr><td>10441</td><td>Sentry 단일 모니터 최종 검수</td><td class="easy">"이제 Sentry 하나로 다 잡힌다" 최종 확인</td><td>10/14</td><td><span class="bar"><i></i><i></i><i></i><i></i><i></i></span></td><td><span class="pill wait">대기</span></td><td>마지막</td></tr>
+<tr><td>12216</td><td>알림을 Sentry로 모으기 (Jay 요청, 9/29 추가)</td><td class="easy">Google Cloud가 보내던 에러 알림도 Sentry 하나로 합치기. Sentry가 못 보는 건 예외로 남김</td><td>10/16</td><td><span class="bar"><i class="on"></i><i></i><i></i><i></i><i></i></span></td><td><span class="pill run">작업 중</span></td><td>Jay가 조회 권한 줌. 켜진 규칙 18개(30일 내 울린 건 5종) → 옮김/유지 표 작성 중. 끄기 전에 Jay와 합의</td></tr>
 </table></div>
 
 <h2>Brice 몫 (나중에 필요)</h2>
