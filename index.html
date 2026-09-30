@@ -38,14 +38,14 @@ th{background:#f1f2f4;font-weight:600}
 </style></head><body><div class="wrap">
 
 <h1>Bugsnag → Sentry 이전 현황</h1>
-<p class="sub">Brice 인계 2026-09-23 · 업데이트 2026-09-30 (수) 22:57 KST · 원칙: 증거 먼저, 제거 전 최소 7일 병행 (prod 반영일부터 셈)</p>
+<p class="sub">Brice 인계 2026-09-23 · 업데이트 2026-10-01 (목) 07:48 KST · 원칙: 증거 먼저, 제거 전 최소 7일 병행 (prod 반영일부터 셈)</p>
 
 <div class="card hl"><b>한 줄 요약</b><br>
-<b>6/12 완료</b> (9/29 Jay 요청으로 12216, 12229 추가). 10444(web에 Sentry 추가)까지 끝남. web Sentry는 9/29 06:24 릴리스로 prod 반영, 7일 병행 중. 철거 PR 2개(10447, 10445)는 증거까지 다 모아 draft로 대기 중. 12229 코드(1차 결제·정산·작업, 2차 Discovery 검색) 전부 머지. 지금 돌고 있는 세션 0개, 날짜/신호 오면 다시 엶.<br>
+<b>7/12 완료</b> (9/29 Jay 요청으로 12216, 12229 추가). 10444(web에 Sentry 추가)까지 끝남. web Sentry는 9/29 06:24 릴리스로 prod 반영, 7일 병행 중. 철거 PR 2개(10447, 10445)는 증거까지 다 모아 draft로 대기 중. 12229 코드(1차 결제·정산·작업, 2차 Discovery 검색) 전부 머지. 지금 돌고 있는 세션 0개, 날짜/신호 오면 다시 엶.<br>
 Vercel 연동과 crawler 담당은 Brice가 처리함. 남은 Brice 몫은 <b>2개</b>이고, 둘 다 지금 당장 막는 건 아님.</div>
 
 <div class="kpis">
-<div class="kpi"><div class="v">6 / 12</div><div class="l">Linear Done (9/28 오전 0)</div></div>
+<div class="kpi"><div class="v">7 / 12</div><div class="l">Linear Done (9/28 오전 0)</div></div>
 <div class="kpi"><div class="v">16</div><div class="l">머지된 PR, 열린 draft 3 (#10766, #10815, #10818)</div></div>
 <div class="kpi"><div class="v">0</div><div class="l">작업 중 세션. 10443·10445·10447·12216·12229 모두 재개 대기</div></div>
 <div class="kpi"><div class="v" style="color:#c81e1e">3</div><div class="l">Brice/Jay 몫 (나중에 필요)</div></div>
@@ -55,8 +55,8 @@ Vercel 연동과 crawler 담당은 Brice가 처리함. 남은 Brice 몫은 <b>2�
 <div class="card tablewrap"><table>
 <tr><th>언제</th><th>티켓</th><th>할 일</th><th>누가</th><th>막는 것</th></tr>
 <tr><td>다음 main 릴리스 뒤 (릴리스 PR #10958에 포함, 9/30 04:11부터 검사 실패로 멈춤, 13:35까지 처리 없음)</td><td>10443</td><td>crawler에 Sentry 연결된 걸 테스트 에러 1건으로 증명</td><td>허브</td><td><span class="pill wait">릴리스</span> prod 배포는 DJ 승인 완료(9/30). 배포 버튼(#10850)이 main에 올라가야 누를 수 있음</td></tr>
-<tr><td>지금 진행 중</td><td>10443</td><td>brand-extraction PR #10766: 공용 Sentry 파일로 합침, 검사 재실행 중 → 머지(= prod 배포) → 테스트 에러 증거</td><td>허브</td><td><span class="pill run">진행 중</span> Brice prod 승인 완료(9/30 14:30)</td></tr>
-<tr><td>지금 진행 중</td><td>10447</td><td>API에서 Bugsnag 떼기. #10815 최신 dev 반영 → 재검사 → 머지 전 화면 검사 → 머지</td><td>허브</td><td><span class="pill run">진행 중</span> 7일 대기 없이 바로 진행(9/30 팀 결정)</td></tr>
+<tr><td>지금 진행 중</td><td>10443</td><td>brand-extraction PR #10766: 검사 통과(STORIKA-12534로 로컬 검사 도구 수정), 머지 전 화면 검사 재실행 → 머지(= prod 배포) → 테스트 에러 증거</td><td>허브</td><td><span class="pill run">진행 중</span> Brice prod 승인·DJ 범위 승인 완료</td></tr>
+<tr><td>다음 main 릴리스 뒤</td><td>10447</td><td>prod API 설정에 Bugsnag 키가 안 남았는지 확인 (9506 해지 전제)</td><td>허브</td><td><span class="pill wait">릴리스</span> dev 머지·api-dev 확인 완료(10/1 Done)</td></tr>
 <tr><td>Brice 할 일</td><td>10445</td><td><b>Vercel에서 NEXT_PUBLIC_BUGSNAG_API_KEY 삭제</b>. 삭제 후 허브가 Vercel 설정 목록을 읽어 확인하면 Done</td><td>Brice</td><td><span class="pill other">Brice</span> 남은 건 이것 하나</td></tr>
 <tr><td>다음 main 릴리스 뒤</td><td>12216</td><td>canary 정기 실행 모니터 생성 → 울리는지 확인 → 7일 병행 → Jay에게 표 전달</td><td>허브</td><td><span class="pill wait">릴리스</span> #10842가 릴리스 PR #10958(9/30 04:11)에 들어 있음. 앱 화면 검사 2개 실패로 멈춤. 13:35까지 9시간 넘게 처리 없음, 릴리스 담당 대기</td></tr>
 <tr><td>7일 병행 뒤</td><td>12216</td><td>Google Cloud 규칙 끄기: 12216 몫 5개 + 12229에서 넘겨받은 6개(죽은 규칙 2개 포함). 끄기만, 삭제 안 함</td><td>허브</td><td><span class="pill other">Jay/Brice</span> 규칙 수정 권한(alertPolicyEditor)</td></tr>
@@ -81,7 +81,7 @@ Vercel 연동과 crawler 담당은 Brice가 처리함. 남은 Brice 몫은 <b>2�
 <tr><td>10446</td><td>API Sentry 동등성 증명</td><td class="easy">API 동에 Sentry 달고 진짜 잘 울리는지 증명</td><td>10/3</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="pill done">Done</span></td><td>없음. PR 4개 머지, 가짜 에러 3건 + 자연 에러(STORIKA-API-2P)에서 원본 TS 줄 확인</td></tr>
 <tr><td>10443</td><td>Python 에러를 Sentry로</td><td class="easy">Python 동에 Sentry 달기 (여긴 원래 Bugsnag도 없었음)</td><td class="late">9/30</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></td><td><span class="pill run">부분 완료</span></td><td>#10765 머지(9/29 07:27), 로컬 실행 오류 수정 #10852 머지(9/29 12:01, Brice 지적). enrich-post dev 증거 완료(STORIKA-PYTHON-4, #api-error 알림, 가림 OK). 남은 것: crawler 증거, #10766 brand-extraction<br><b>대기 사유:</b> crawler는 배포 버튼(#10850)이 다음 main 릴리스로 올라가야 누를 수 있음(DJ prod 배포 승인 완료). brand-extraction은 <b>Brice</b> prod 반영 승인 필요(9/30 07:39 리마인드함, 13:35까지 답 없음)</td></tr>
 <tr><td>10444</td><td>web에 Sentry 추가</td><td class="easy">web 동에 Sentry 달기. 에러 위치가 원본 코드 줄로 보이게</td><td class="late">10/1</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="pill done">Done</span></td><td>없음. PR 3개(#10767, #10777, #10797) 머지. 브라우저 + 서버 에러 모두 원본 코드 줄 확인, 이메일/토큰 가림, IP 없음</td></tr>
-<tr><td>10447</td><td>API에서 Bugsnag 제거</td><td class="easy">API 동에서 Bugsnag 떼기</td><td>10/10</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></td><td><span class="pill run">진행 중</span></td><td>9/30 팀 결정으로 7일 대기 없이 진행. 머지 큐 로그인 테스트 문제(STORIKA-12464, Brice가 수정) 해결 뒤 최신 dev로 재검사 중. web과 API 둘 다 떼서 Bugsnag 라이브러리가 코드에서 완전히 사라짐</td></tr>
+<tr><td>10447</td><td>API에서 Bugsnag 제거</td><td class="easy">API 동에서 Bugsnag 떼기</td><td>10/10</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="pill done">Done</span></td><td>10/1 Done. #10815 dev 머지(9/30 23:47). api-dev 설정에 Bugsnag 0, 테스트 에러 3경로 Sentry 도착(원본 코드 줄, 개인정보 가림), 원상복구 확인. web·API 모두 떼서 Bugsnag 라이브러리 완전 제거. 남은 것: main 릴리스 뒤 prod 설정 확인(9506 전제)</td></tr>
 <tr><td>10445</td><td>web에서 Bugsnag 제거</td><td class="easy">web 동에서 Bugsnag 떼기</td><td>10/8</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="pill wait">Brice 대기</span></td><td>#10818 dev 머지(9/30 18:27). app-dev 확인 완료: 요청 322건 중 Bugsnag 0, JS 파일 47개 중 Bugsnag 0. Brice UI 리뷰 통과.<br><b>남은 것: Brice가 Vercel에서 Bugsnag 키(NEXT_PUBLIC_BUGSNAG_API_KEY) 삭제</b>. 삭제 확인되면 Done. prod 확인은 다음 main 릴리스 뒤</td></tr>
 <tr><td>9506</td><td>Bugsnag 해지</td><td class="easy">Brice가 Bugsnag 계정 해지하고 비밀키 삭제</td><td>10/13</td><td><span class="bar"><i></i><i></i><i></i><i></i><i></i></span></td><td><span class="pill other">Brice 실행</span></td><td>제거 뒤 Brice가 시크릿 삭제와 해지. 그 전에 prod 서버에 Bugsnag 설정이 안 남았는지 확인. 다음 Bugsnag 결제 10/5 ($23)<br><b>대기 사유:</b> 10447, 10445 두 제거 PR이 먼저 prod에 반영돼야 함. 그 뒤 <b>Brice</b> 실행</td></tr>
 <tr><td>10441</td><td>Sentry 단일 모니터 최종 검수</td><td class="easy">"이제 Sentry 하나로 다 잡힌다" 최종 확인</td><td>10/14</td><td><span class="bar"><i></i><i></i><i></i><i></i><i></i></span></td><td><span class="pill wait">대기</span></td><td><b>대기 사유:</b> 9506(Bugsnag 해지)이 끝나야 "Sentry 하나로 다 잡힌다" 최종 확인 가능. 사람 할 일 없음</td></tr>
