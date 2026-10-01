@@ -38,7 +38,7 @@ th{background:#f1f2f4;font-weight:600}
 </style></head><body><div class="wrap">
 
 <h1>Bugsnag → Sentry 이전 현황</h1>
-<p class="sub">Brice 인계 2026-09-23 · 업데이트 2026-10-01 (목) 14:48 KST · 원칙: 증거 먼저, 7일 병행 대기는 9/30 팀 결정으로 생략</p>
+<p class="sub">Brice 인계 2026-09-23 · 업데이트 2026-10-01 (목) 15:26 KST · 원칙: 증거 먼저, 7일 병행 대기는 9/30 팀 결정으로 생략</p>
 
 <b>9/12 완료</b>. <b>main 릴리스 #11120이 10/1 14:25 KST에 prod 반영</b> (10443·10445·10447·12534 머지 전부 포함). prod web(app.storika.ai) JS 48개 중 Bugsnag 0 확인. crawler는 14:31 main으로 prod 배포(Sentry 연결). brand-extraction은 10/1 09:36 머지·prod 테스트 에러 확인 완료.<br>
 10443·10445 10/1 Done. 남은 사람 몫: Bugsnag 시크릿 삭제·해지 (9506, Brice, 결제일 10/5).</div>
@@ -56,9 +56,9 @@ Vercel 연동과 crawler 담당은 Brice가 처리함. 남은 Brice 몫은 <b>2�
 <tr><th>언제</th><th>티켓</th><th>할 일</th><th>누가</th><th>막는 것</th></tr>
 <tr><td>완료</td><td>10443</td><td>brand-extraction PR #10766 머지(10/1 09:36 = prod 배포) → prod 테스트 에러 Sentry 도착(가림 OK) → 스위치 OFF 확인</td><td>허브</td><td><span class="pill done">완료</span></td></tr>
 <tr><td>완료</td><td>10447</td><td>prod API 배포(14:25 릴리스) 로그에 Bugsnag 0. prod 서버 설정 직접 조회는 DJ 권한 밖이라 9506 때 Brice 확인</td><td>허브</td><td><span class="pill done">완료</span></td></tr>
-<tr><td>지금 (릴리스 반영됨)</td><td>12216</td><td>canary 정기 실행 모니터 생성 → 울리는지 확인 → 병행 확인 → Jay에게 표 전달</td><td>허브</td><td><span class="pill run">시작</span> #10842가 14:25 릴리스로 prod 반영</td></tr>
-<tr><td>병행 확인 뒤</td><td>12216</td><td>Google Cloud 규칙 끄기: 12216 몫 5개 + 12229에서 넘겨받은 6개(죽은 규칙 2개 포함). 끄기만, 삭제 안 함</td><td>허브</td><td><span class="pill other">Jay/Brice</span> 규칙 수정 권한(alertPolicyEditor)</td></tr>
-<tr><td>지금 가능</td><td>9506</td><td>Bugsnag 시크릿 삭제, 계정 해지. 지울 목록은 Jay STORIKA-12552에 정리됨 (GitHub 1개, Secret Manager 4개)</td><td>Brice</td><td><span class="pill other">Brice</span> 결제일 10/5 ($23)</td></tr>
+<tr><td>완료</td><td>12216</td><td>Sentry canary cron 모니터 생성(15:08) → 정상 체크인 → 테스트 실패 알림 #api-error 도착 → 자동 회복</td><td>허브</td><td><span class="pill done">완료</span></td></tr>
+<tr><td>Jay 답 대기</td><td>12216</td><td>Google Cloud 규칙 끄기 2단계. 1차 지금 6개(canary, 죽은 규칙 2, health·CPU·메모리), 2차 10/8 5개(12229 넘어온 4 + uptime). 끄기만, 삭제 안 함. 15:25 Jay에게 요청</td><td>Jay → 허브</td><td><span class="pill other">Jay</span> OK + 규칙 수정 권한(alertPolicyEditor)</td></tr>
+<tr><td>Brice 답 대기 (10/5 전)</td><td>9506</td><td>Bugsnag 시크릿 삭제, 계정 해지. Secret Manager 4개 + 옛 레포(ai-agents, queue-worker) GitHub 시크릿 2개. 마지막 4일 치 기록도 10/1 추가 백업 완료. 15:02 Brice에게 요청</td><td>Brice</td><td><span class="pill other">Brice</span> 결제일 10/5 ($23)</td></tr>
 <tr><td>맨 마지막</td><td>10441</td><td>Sentry 하나로 다 잡히는지 최종 검수</td><td>허브</td><td><span class="pill wait">순서</span> 9506</td></tr>
 </table></div>
 
