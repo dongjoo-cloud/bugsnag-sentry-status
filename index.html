@@ -38,14 +38,14 @@ th{background:#f1f2f4;font-weight:600}
 </style></head><body><div class="wrap">
 
 <h1>Bugsnag → Sentry 이전 현황</h1>
-<p class="sub">Brice 인계 2026-09-23 · 업데이트 2026-10-01 (목) 15:26 KST · 원칙: 증거 먼저, 7일 병행 대기는 9/30 팀 결정으로 생략</p>
+<p class="sub">Brice 인계 2026-09-23 · 업데이트 2026-10-02 (금) 11:05 KST · 원칙: 증거 먼저, 7일 병행 대기는 9/30 팀 결정으로 생략</p>
 
-<b>9/12 완료</b>. <b>main 릴리스 #11120이 10/1 14:25 KST에 prod 반영</b> (10443·10445·10447·12534 머지 전부 포함). prod web(app.storika.ai) JS 48개 중 Bugsnag 0 확인. crawler는 14:31 main으로 prod 배포(Sentry 연결). brand-extraction은 10/1 09:36 머지·prod 테스트 에러 확인 완료.<br>
+<b>10/12 완료</b>. <b>main 릴리스 #11120이 10/1 14:25 KST에 prod 반영</b> (10443·10445·10447·12534 머지 전부 포함). prod web(app.storika.ai) JS 48개 중 Bugsnag 0 확인. crawler는 14:31 main으로 prod 배포(Sentry 연결). brand-extraction은 10/1 09:36 머지·prod 테스트 에러 확인 완료.<br>
 10443·10445 10/1 Done. 남은 사람 몫: Bugsnag 시크릿 삭제·해지 (9506, Brice, 결제일 10/5).</div>
 Vercel 연동과 crawler 담당은 Brice가 처리함. 남은 Brice 몫은 <b>2개</b>이고, 둘 다 지금 당장 막는 건 아님.</div>
 
 <div class="kpis">
-<div class="kpi"><div class="v">9 / 12</div><div class="l">Linear Done (9/28 오전 0)</div></div>
+<div class="kpi"><div class="v">10 / 12</div><div class="l">Linear Done (9/28 오전 0)</div></div>
 <div class="kpi"><div class="v">16</div><div class="l">머지된 PR, 열린 draft 3 (#10766, #10815, #10818)</div></div>
 <div class="kpi"><div class="v">0</div><div class="l">작업 중 세션. 남은 일은 허브가 직접 처리</div></div>
 <div class="kpi"><div class="v" style="color:#c81e1e">1</div><div class="l">Brice 몫 (9506)</div></div>
@@ -58,8 +58,8 @@ Vercel 연동과 crawler 담당은 Brice가 처리함. 남은 Brice 몫은 <b>2�
 <tr><td>완료</td><td>10447</td><td>prod API 배포(14:25 릴리스) 로그에 Bugsnag 0. prod 서버 설정 직접 조회는 DJ 권한 밖이라 9506 때 Brice 확인</td><td>허브</td><td><span class="pill done">완료</span></td></tr>
 <tr><td>완료</td><td>12216</td><td>Sentry canary cron 모니터 생성(15:08) → 정상 체크인 → 테스트 실패 알림 #api-error 도착 → 자동 회복</td><td>허브</td><td><span class="pill done">완료</span></td></tr>
 <tr><td>Jay 답 대기</td><td>12216</td><td>Google Cloud 규칙 끄기 2단계. 1차 지금 6개(canary, 죽은 규칙 2, health·CPU·메모리), 2차 10/8 5개(12229 넘어온 4 + uptime). 끄기만, 삭제 안 함. 15:25 Jay에게 요청</td><td>Jay → 허브</td><td><span class="pill other">Jay</span> OK + 규칙 수정 권한(alertPolicyEditor)</td></tr>
-<tr><td>Brice 답 대기 (10/5 전)</td><td>9506</td><td>Bugsnag 시크릿 삭제, 계정 해지. Secret Manager 4개 + 옛 레포(ai-agents, queue-worker) GitHub 시크릿 2개. 마지막 4일 치 기록도 10/1 추가 백업 완료. 15:02 Brice에게 요청</td><td>Brice</td><td><span class="pill other">Brice</span> 결제일 10/5 ($23)</td></tr>
-<tr><td>맨 마지막</td><td>10441</td><td>Sentry 하나로 다 잡히는지 최종 검수</td><td>허브</td><td><span class="pill wait">순서</span> 9506</td></tr>
+<tr><td>완료</td><td>9506</td><td>Bugsnag 키 전부 삭제(Jay), DJ 토큰 폐기, 요금제 10/5부터 무료 전환 예약 확인(화면 캡처 보관)</td><td>Jay·DJ</td><td><span class="pill done">완료</span></td></tr>
+<tr><td>10/5 (월)</td><td>10441</td><td>Codex가 API·web·Python 테스트 에러, 4xx·503 무시, Bugsnag 흔적 0을 직접 재확인</td><td>허브(Codex)</td><td><span class="pill wait">10/5</span> Codex 한도 10/5 07:44 해제</td></tr>
 </table></div>
 
 <h2>흐름</h2>
@@ -81,8 +81,8 @@ Vercel 연동과 crawler 담당은 Brice가 처리함. 남은 Brice 몫은 <b>2�
 <tr><td>10444</td><td>web에 Sentry 추가</td><td class="easy">web 동에 Sentry 달기. 에러 위치가 원본 코드 줄로 보이게</td><td class="late">10/1</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="pill done">Done</span></td><td>없음. PR 3개(#10767, #10777, #10797) 머지. 브라우저 + 서버 에러 모두 원본 코드 줄 확인, 이메일/토큰 가림, IP 없음</td></tr>
 <tr><td>10447</td><td>API에서 Bugsnag 제거</td><td class="easy">API 동에서 Bugsnag 떼기</td><td>10/10</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="pill done">Done</span></td><td>10/1 Done. #10815 dev 머지(9/30 23:47). api-dev 설정에 Bugsnag 0, 테스트 에러 3경로 Sentry 도착(원본 코드 줄, 개인정보 가림), 원상복구 확인. web·API 모두 떼서 Bugsnag 라이브러리 완전 제거. 10/1 14:25 릴리스로 prod 반영, prod 배포 로그 Bugsnag 0</td></tr>
 <tr><td>10445</td><td>web에서 Bugsnag 제거</td><td class="easy">web 동에서 Bugsnag 떼기</td><td>10/8</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="pill done">Done</span></td><td>#10818 dev 머지(9/30 18:27), 10/1 14:25 릴리스로 prod 반영. Jay가 Vercel 키 삭제(10/1 08:02). prod app.storika.ai JS 48개 중 Bugsnag 0. 10/1 Done</td></tr>
-<tr><td>9506</td><td>Bugsnag 해지</td><td class="easy">Brice가 Bugsnag 계정 해지하고 비밀키 삭제</td><td>10/13</td><td><span class="bar"><i></i><i></i><i></i><i></i><i></i></span></td><td><span class="pill other">Brice 실행</span></td><td>제거 뒤 Brice가 시크릿 삭제와 해지. 그 전에 prod 서버에 Bugsnag 설정이 안 남았는지 확인. 다음 Bugsnag 결제 10/5 ($23)<br>두 제거 PR 10/1 prod 반영 완료 → <b>Brice 실행 가능</b>. 목록: STORIKA-12552</td></tr>
-<tr><td>10441</td><td>Sentry 단일 모니터 최종 검수</td><td class="easy">"이제 Sentry 하나로 다 잡힌다" 최종 확인</td><td>10/14</td><td><span class="bar"><i></i><i></i><i></i><i></i><i></i></span></td><td><span class="pill wait">대기</span></td><td><b>대기 사유:</b> 9506(Bugsnag 해지)이 끝나야 "Sentry 하나로 다 잡힌다" 최종 확인 가능. 사람 할 일 없음</td></tr>
+<tr><td>9506</td><td>Bugsnag 해지</td><td class="easy">Brice가 Bugsnag 계정 해지하고 비밀키 삭제</td><td>10/13</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="pill done">Done</span></td><td>10/2 Done. 키 0개, 토큰 401, 10/5부터 무료 플랜($0)</td></tr>
+<tr><td>10441</td><td>Sentry 단일 모니터 최종 검수</td><td class="easy">"이제 Sentry 하나로 다 잡힌다" 최종 확인</td><td>10/14</td><td><span class="bar"><i></i><i></i><i></i><i></i><i></i></span></td><td><span class="pill run/5 검수</span></td><td>증거 모음 완료. 10/5 Codex(다른 계열 AI)가 직접 재확인 후 Done</td></tr>
 <tr><td>12216</td><td>알림을 Sentry로 모으기 (Jay 요청, 9/29 추가)</td><td class="easy">Google Cloud가 보내던 에러 알림도 Sentry 하나로 합치기. Sentry가 못 보는 건 예외로 남김</td><td>10/16</td><td><span class="bar"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span></td><td><span class="pill wait">진행 중</span></td><td>옮김/유지 표 Linear에 게시. #10842 머지(9/29 11:45). Sentry 가동 확인 모니터 2개 생성(API, app.storika.ai). 남은 것: main 릴리스 뒤 canary 정기 실행 모니터 → 울리는지 확인 → 7일 병행 → Jay에게 표 전달 → Google Cloud 규칙 5개 끄기<br>릴리스(14:25) 반영됨 → 허브가 모니터 생성 시작. 끄는 단계에서 <b>Jay/Brice</b> 규칙 수정 권한 필요</td></tr>
 <tr><td>12229</td><td>로그만 남던 실패도 Sentry로 (12216 후속)</td><td class="easy">에러 기록만 남기고 경보는 안 울리던 곳(결제·정산·백그라운드 작업)에 Sentry 달기. 그래야 Google Cloud 규칙을 끌 수 있음</td><td>-</td><td><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="pill done">Done</span></td><td>9/30 Done. 1차 #10864(9/29 14:01) + 2차 #10881(9/29 16:07) 머지, 테스트 에러 4건 확인. Discovery 규칙 2개는 죽은 규칙으로 판명. Google Cloud 규칙 6개 끄기는 12216으로 넘김</td></tr>
 </table></div>
@@ -90,7 +90,6 @@ Vercel 연동과 crawler 담당은 Brice가 처리함. 남은 Brice 몫은 <b>2�
 <h2>Brice/Jay 몫 (나중에 필요)</h2>
 <div class="card gate"><h3>지금 당장 막는 건 없음. 때가 되면 한 번에 요청</h3>
 <div class="steps">
-<div class="step"><div class="n">1</div><div><b>Bugsnag 해지</b> (9506)<br>지금 가능. 시크릿 목록은 STORIKA-12552. 결제일 10/5 ($23).</div></div>
 <div class="step"><div class="n">2</div><div><b>Google Cloud 규칙 수정 권한</b> (12216, 12229, 끄는 단계에서)<br>roles/monitoring.alertPolicyEditor. Jay 또는 Brice. 9/29 #product 스레드에 미리 알림.</div></div>
 </div></div>
 
