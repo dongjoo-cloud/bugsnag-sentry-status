@@ -38,10 +38,10 @@ th{background:#f1f2f4;font-weight:600}
 </style></head><body><div class="wrap">
 
 <h1>Bugsnag → Sentry 이전 현황</h1>
-<p class="sub">Brice 인계 2026-09-23 · 업데이트 2026-10-04 (일) 16:27 KST · 원칙: 증거 먼저, 7일 병행 대기는 9/30 팀 결정으로 생략</p>
+<p class="sub">Brice 인계 2026-09-23 · 업데이트 2026-10-06 (화) 08:15 KST · 원칙: 증거 먼저, 7일 병행 대기는 9/30 팀 결정으로 생략</p>
 
-<div class="card hl"><b>11/12 완료</b>. <b>Bugsnag 완전 은퇴</b>: 코드 제거 prod 반영(10/1 14:25 릴리스), 키·시크릿 전부 삭제, DJ 토큰 폐기, 요금제는 10/5부터 무료($0)로 전환 예약 → 10/5 결제 없음.<br>
-10441 최종 독립 점검 10/4 통과(Codex, PASS). 남은 것은 허브 일 1개: <b>12216 Google Cloud 알림 2차 끄기(10/8)</b>. 사람이 해줄 일 없음.</div>
+<div class="card hl"><b>11/12 완료</b>. <b>Bugsnag 완전 은퇴</b>: 코드 제거 prod 반영(10/1 14:25 릴리스), 키·시크릿 전부 삭제, DJ 토큰 폐기, 요금제는 10/5부터 무료($0)로 전환 예약 → 10/5 결제일 지남(미청구 최종 확인은 카드 명세서로).<br>
+10441 최종 독립 점검 10/4 통과(Codex, PASS). 남은 것은 허브 일 1개: <b>12216 Google Cloud 알림 2차 끄기(10/8)</b>. 10/8인 이유: 2차 5개는 Sentry 대체 코드가 10/1에야 prod에 반영돼서 1주일 같이 운영한 뒤 끄기로 함(10/1 Jay 승인). 사람이 해줄 일 없음.</div>
 
 <div class="kpis">
 <div class="kpi"><div class="v">11 / 12</div><div class="l">Linear Done (9/28 오전 0)</div></div>
@@ -56,7 +56,7 @@ th{background:#f1f2f4;font-weight:600}
 <tr><td>완료</td><td>10443</td><td>brand-extraction PR #10766 머지(10/1 09:36 = prod 배포) → prod 테스트 에러 Sentry 도착(가림 OK) → 스위치 OFF 확인</td><td>허브</td><td><span class="pill done">완료</span></td></tr>
 <tr><td>완료</td><td>10447</td><td>prod API 배포(14:25 릴리스) 로그에 Bugsnag 0. prod 서버 설정 직접 조회는 DJ 권한 밖이라 9506 때 Brice 확인</td><td>허브</td><td><span class="pill done">완료</span></td></tr>
 <tr><td>완료</td><td>12216</td><td>Sentry canary cron 모니터 생성(15:08) → 정상 체크인 → 테스트 실패 알림 #api-error 도착 → 자동 회복</td><td>허브</td><td><span class="pill done">완료</span></td></tr>
-<tr><td>1차 완료 · 2차 10/8</td><td>12216</td><td>Google Cloud 규칙 끄기. 1차 6개 10/1 16:08 끔(Jay 승인·권한). 2차 10/8 5개(12229 넘어온 4 + uptime) + 레포 정리 PR. 끄기만, 삭제 안 함</td><td>허브</td><td><span class="pill wait">10/8</span></td></tr>
+<tr><td>1차 완료 · 2차 10/8</td><td>12216</td><td>Google Cloud 규칙 끄기. 1차 6개 10/1 16:08 끔(Jay 승인·권한). 2차 10/8 5개(12229 넘어온 4 + uptime) + 레포 정리 PR. 2차는 Sentry 대체가 10/1 prod 반영이라 1주일 같이 운영 후 끔. 끄기만, 삭제 안 함</td><td>허브</td><td><span class="pill wait">10/8</span></td></tr>
 <tr><td>완료</td><td>9506</td><td>Bugsnag 키 전부 삭제(Jay), DJ 토큰 폐기, 요금제 10/5부터 무료 전환 예약 확인(화면 캡처 보관)</td><td>Jay·DJ</td><td><span class="pill done">완료</span></td></tr>
 <tr><td>완료</td><td>10441</td><td>Codex(다른 계열 AI)가 API·web·Python 테스트 에러, 개인정보 가림, 알림, Bugsnag 흔적 0을 직접 재확인. 점검 중 web 테스트 코드 문제 발견 → PR #11233·#11328로 수정</td><td>허브(Codex)</td><td><span class="pill done">완료</span> 10/4 PASS</td></tr>
 </table></div>
