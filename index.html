@@ -5,7 +5,7 @@
 :root{--bg:#f6f7f9;--card:#fff;--ink:#111;--muted:#666;--line:#e3e5e8;--blue:#e8f0fe;--blueb:#1a56db;--red:#fdecec;--redb:#c81e1e}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,"Apple SD Gothic Neo",sans-serif}
-.wrap{max-width:900px;margin:0 auto;padding:28px 16px 60px}
+.wrap{max-width:800px;width:100%;margin:0 auto;padding:28px 16px 60px}
 h1{font-size:24px;margin:0 0 4px}
 .sub{color:var(--muted);margin:0 0 20px}
 h2{font-size:18px;margin:28px 0 12px;padding-left:10px;border-left:4px solid #111}
@@ -14,11 +14,11 @@ h2{font-size:18px;margin:28px 0 12px;padding-left:10px;border-left:4px solid #11
 .hl b{color:var(--blueb)}
 .gate{background:var(--red);border-color:#f5c2c2}
 .gate h3{color:var(--redb);margin:0 0 8px;font-size:16px}
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:100%;max-width:100%}
 .kpi{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px}
 .kpi .v{font-size:28px;font-weight:700}
 .kpi .l{color:var(--muted);font-size:13px}
-table{width:100%;border-collapse:collapse;font-size:14px}
+table{width:100%;max-width:100%;border-collapse:collapse;font-size:14px;table-layout:auto}
 th,td{border-bottom:1px solid var(--line);padding:9px 8px;text-align:left;vertical-align:top}
 th{background:#f1f2f4;font-weight:600}
 .pill{display:inline-block;padding:1px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
@@ -27,20 +27,20 @@ th{background:#f1f2f4;font-weight:600}
 .steps{display:flex;flex-direction:column;gap:10px}
 .step{display:flex;gap:12px;align-items:flex-start}
 .step .n{flex:0 0 28px;height:28px;border-radius:50%;background:#111;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
-.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px;width:100%;max-width:100%}
 .flow span{display:inline-block;width:112px;min-height:44px;padding:6px 8px;border-radius:8px;border:1px solid var(--line);background:#fff;text-align:center}
 .flow span.d{background:#def7ec;border-color:#a7e3c5}.flow span.r{background:#e1effe;border-color:#bcd3fb}.flow span.b{background:#fde8e8;border-color:#f5c2c2}
 .late{color:var(--redb);font-weight:700}
 .muted{color:var(--muted);font-size:13px}
-.easy{color:#374151;font-size:13px;min-width:150px}
-.tablewrap{overflow-x:auto}
+.easy{color:#374151;font-size:13px;min-width:0}
+.tablewrap{overflow-x:auto;max-width:100%;-webkit-overflow-scrolling:touch}
 @media (max-width:720px){.kpis{grid-template-columns:repeat(2,1fr)}table{font-size:13px}}
 </style></head><body><div class="wrap">
 
 <h1>Bugsnag → Sentry 이전 현황</h1>
 <p class="sub">Brice 인계 2026-09-23 · 업데이트 2026-10-04 (일) 16:27 KST · 원칙: 증거 먼저, 7일 병행 대기는 9/30 팀 결정으로 생략</p>
 
-<b>11/12 완료</b>. <b>Bugsnag 완전 은퇴</b>: 코드 제거 prod 반영(10/1 14:25 릴리스), 키·시크릿 전부 삭제, DJ 토큰 폐기, 요금제는 10/5부터 무료($0)로 전환 예약 → 10/5 결제 없음.<br>
+<div class="card hl"><b>11/12 완료</b>. <b>Bugsnag 완전 은퇴</b>: 코드 제거 prod 반영(10/1 14:25 릴리스), 키·시크릿 전부 삭제, DJ 토큰 폐기, 요금제는 10/5부터 무료($0)로 전환 예약 → 10/5 결제 없음.<br>
 10441 최종 독립 점검 10/4 통과(Codex, PASS). 남은 것은 허브 일 1개: <b>12216 Google Cloud 알림 2차 끄기(10/8)</b>. 사람이 해줄 일 없음.</div>
 
 <div class="kpis">
@@ -92,7 +92,7 @@ th{background:#f1f2f4;font-weight:600}
 </div></div>
 
 <h2>오늘 Brice가 처리해준 것</h2>
-<div class="card"><table>
+<div class="card tablewrap"><table>
 <tr><th>항목</th><th>결과</th></tr>
 <tr><td>Bugsnag, Sentry 초대</td><td>DJ Owner로 조인, DPA 서명</td></tr>
 <tr><td>GitHub SENTRY_AUTH_TOKEN</td><td>등록됨 → 10446 소스맵 업로드 성공 (5,472 파일)</td></tr>
@@ -104,7 +104,7 @@ th{background:#f1f2f4;font-weight:600}
 </table></div>
 
 <h2>오늘 생긴 이슈와 처리</h2>
-<div class="card"><table>
+<div class="card tablewrap"><table>
 <tr><th>이슈</th><th>처리</th></tr>
 <tr><td>공용 QA 계정 비번 리셋 (우리 세션)</td><td>Brice 로그인 5건 파손 → 원인 공개, 비번은 Secret Manager로 전달, 해결 확인. 재민트 금지 규칙 추가</td></tr>
 <tr><td>로컬 knip 오탐 (recharts)</td><td>HeroUI Pro 대체물 탓으로 확정, 한 줄 추가로 해결</td></tr>
